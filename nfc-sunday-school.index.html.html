@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NFC Sunday School 수업 도구</title>
+<style>
+:root{
+  --bg:#F9F9F6; --ink:#2C3E50; --line:#2C3E50; --soft:#E9E9E2;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+:root[data-theme="dark"]{ --bg:#F9F9F6; --ink:#2C3E50; }
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+  line-height:1.6; -webkit-tap-highlight-color:transparent;
+}
+.wrap{max-width:960px;margin:0 auto;padding:24px 20px 40px}
+header{padding-bottom:16px;border-bottom:3px solid var(--ink)}
+h1{margin:0;font-size:2rem;font-weight:800;letter-spacing:-0.01em}
+#today{margin:6px 0 0;font-size:1.5rem;font-weight:600}
+nav{margin:20px 0}
+[role="tablist"]{display:flex;flex-wrap:wrap;gap:10px}
+[role="tab"]{
+  min-height:68px;min-width:68px;padding:0 26px;
+  font:inherit;font-size:1.6rem;font-weight:800;color:var(--ink);
+  background:var(--bg);border:2px solid var(--line);border-radius:12px;cursor:pointer;
+}
+[role="tab"][aria-selected="true"]{background:var(--ink);color:var(--bg)}
+[role="tab"]:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+[role="tabpanel"]{
+  min-height:260px;padding:32px 24px;border:2px solid var(--line);border-radius:12px;
+  background:var(--soft);
+}
+[role="tabpanel"][hidden]{display:none}
+.panel-title{margin:0 0 12px;font-size:1.5rem}
+.panel-note{margin:0;font-size:1.25rem}
+[role="tabpanel"].lesson{padding:0;border:0;background:transparent;min-height:0}
+.scene-card{border:2px solid var(--ink);border-radius:28px;overflow:hidden;background:#FFF8E7}
+.scene-card svg{display:block;width:100%;height:auto}
+.scene-cap{margin:0;padding:18px 24px;text-align:center;font-size:1.9rem;font-weight:800;line-height:1.5;word-break:keep-all;background:#FFF8E7}
+@media (max-width:600px){.scene-cap{font-size:1.4rem;padding:14px 16px}}
+.scene-card svg{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.drag{cursor:grab;touch-action:none}
+.drag.dragging{cursor:grabbing;filter:drop-shadow(0 8px 6px rgba(44,62,80,.35))}
+.drag.returning{transition:transform .4s ease}
+@media (prefers-reduced-motion:reduce){.drag.returning{transition:none}}
+.scene-actions{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:20px}
+.fall-btn{min-height:68px;min-width:200px;padding:0 36px;font:inherit;font-size:1.6rem;font-weight:800;color:var(--ink);background:#FFE5D0;border:2px solid var(--line);border-radius:12px;cursor:pointer}
+.fall-btn:active{background:var(--ink);color:var(--bg)}
+.fall-btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.fall-btn:disabled{opacity:.4;cursor:default}
+.drag[data-name="골리앗"]{transform-origin:558px 432px}
+.drag.falling{transition:transform .95s cubic-bezier(.5,0,.85,.55)}
+.drag .tag{transition:opacity .3s}
+.is-fallen .drag[data-name="골리앗"] .tag{opacity:0}
+.flystone{pointer-events:none}
+.thud{font-size:64px;font-weight:900;fill:#E4745A;stroke:#fff;stroke-width:10px;paint-order:stroke;stroke-linejoin:round;pointer-events:none;text-anchor:middle;transform-box:fill-box;transform-origin:center;animation:thud 1.2s ease-out forwards}
+@keyframes thud{0%{opacity:0;transform:scale(.4)}25%{opacity:1;transform:scale(1.25)}100%{opacity:0;transform:scale(1) translateY(-24px)}}
+@media (prefers-reduced-motion:reduce){.drag.falling{transition:none}}
+.reset-btn{min-height:68px;min-width:200px;padding:0 36px;font:inherit;font-size:1.6rem;font-weight:800;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:12px;cursor:pointer}
+.reset-btn:active{background:var(--ink);color:var(--bg)}
+.reset-btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.think{margin-top:28px;border:2px solid var(--line);border-radius:16px;background:var(--soft)}
+.think summary{min-height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:1.7rem;font-weight:800;cursor:pointer;list-style:none}
+.think summary::-webkit-details-marker{display:none}
+.think summary::after{content:"펼치기";font-size:1.15rem;font-weight:700}
+.think[open] summary::after{content:"접기"}
+.think summary:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:14px}
+.c1{--cc:#FFD6E3}.c2{--cc:#FFF2BF}.c3{--cc:#CFE8FA}.c4{--cc:#D5EFCB}
+.q-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:8px 20px 20px}
+.q-card{display:flex;flex-direction:column;align-items:flex-start;gap:12px;min-height:180px;padding:22px 24px;text-align:left;font:inherit;color:var(--ink);background:var(--cc);border:3px solid var(--ink);border-radius:24px;cursor:pointer;word-break:keep-all;box-shadow:0 6px 0 rgba(44,62,80,.2)}
+.q-card:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(44,62,80,.2)}
+.q-card:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.q-num{display:inline-block;padding:4px 16px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:1.15rem;font-weight:800}
+.q-text{font-size:1.55rem;font-weight:800;line-height:1.5}
+.q-full{position:fixed;top:0;right:0;bottom:0;left:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:calc(24px + env(safe-area-inset-top,0px)) 32px calc(24px + env(safe-area-inset-bottom,0px));background:var(--cc);color:var(--ink);text-align:center;touch-action:pan-y;-webkit-user-select:none;user-select:none}
+.q-full[hidden]{display:none}
+.qf-count{margin:0;padding:6px 26px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:1.5rem;font-weight:800}
+.qf-text{margin:0;max-width:1000px;font-size:clamp(2rem,5vw,3.8rem);font-weight:900;line-height:1.45;word-break:keep-all}
+.qf-nav{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.qf-btn{min-height:72px;min-width:150px;padding:0 32px;font:inherit;font-size:1.6rem;font-weight:800;color:var(--ink);background:rgba(255,255,255,.8);border:3px solid var(--ink);border-radius:16px;cursor:pointer}
+.qf-btn:active{background:var(--ink);color:var(--bg)}
+.qf-btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+@media (max-width:600px){.q-grid{grid-template-columns:1fr;padding:8px 14px 16px}.q-card{min-height:0}.q-text{font-size:1.35rem}}
+.cover{
+  text-align:center;padding:52px 28px 44px;border-radius:28px;border:2px solid var(--ink);
+  background:linear-gradient(135deg,#FFE5D0 0%,#FFF2BF 48%,#FFD6E3 100%);
+  word-break:keep-all;
+}
+.cover h2{margin:0;font-size:3.8rem;font-weight:900;line-height:1.2}
+.cover .sub{margin:12px 0 0;font-size:2.1rem;font-weight:700}
+.ask{
+  max-width:840px;margin:36px auto 0;padding:24px 32px;border-radius:24px;
+  background:rgba(255,255,255,.72);font-size:2.6rem;font-weight:800;line-height:1.45;
+}
+.verse{
+  max-width:840px;margin:28px auto 0;padding:34px 36px;border-radius:28px;
+  background:var(--ink);color:var(--bg);
+  border:6px solid #F6C453;box-shadow:0 10px 0 rgba(44,62,80,.2);
+}
+.verse .ref{
+  display:inline-block;margin:0 0 18px;padding:6px 22px;border-radius:999px;
+  background:#F6C453;color:var(--ink);font-size:1.6rem;font-weight:900;
+}
+.verse .text{margin:0;font-size:2.1rem;font-weight:700;line-height:1.6}
+.flow{margin-top:20px;border:2px solid var(--line);border-radius:16px;background:var(--soft)}
+.flow summary{
+  min-height:64px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;font-size:1.3rem;font-weight:800;cursor:pointer;list-style:none;
+}
+.flow summary::-webkit-details-marker{display:none}
+.flow summary::after{content:"펼치기";font-size:1.15rem;font-weight:700}
+.flow[open] summary::after{content:"접기"}
+.flow summary:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:14px}
+.steps{list-style:none;margin:0;padding:0 24px 12px}
+.steps li{padding:6px 0;border-top:1px solid rgba(44,62,80,.25)}
+.steps .row{
+  display:flex;align-items:center;gap:16px;width:100%;min-height:60px;padding:0 14px;
+  font:inherit;font-size:1.3rem;color:var(--ink);text-align:left;
+  background:transparent;border:0;border-radius:12px;cursor:pointer;
+}
+.steps .row:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.steps .row[aria-current="step"]{background:var(--ink);color:var(--bg)}
+.steps .st{min-width:3em;font-weight:800}
+.steps .now{display:none;padding:2px 12px;border-radius:999px;background:#F6C453;color:var(--ink);font-size:1.05rem;font-weight:900}
+.steps .row[aria-current="step"] .now{display:inline-block}
+.steps .tm{margin-left:auto;font-weight:800;white-space:nowrap}
+@media (max-width:600px){
+  .cover{padding:36px 18px 32px}
+  .cover h2{font-size:2.5rem}
+  .cover .sub{font-size:1.6rem}
+  .ask{font-size:1.9rem;padding:18px 20px}
+  .verse{padding:24px 20px}
+  .verse .text{font-size:1.5rem}
+  h1{font-size:1.6rem}
+  [role="tab"]{flex:1 1 40%;padding:0 12px}
+}
+/* ===== 퀴즈 / 짝 맞추기 / 찬양 ===== */
+.qz [hidden],.mt [hidden]{display:none!important}
+.fx-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1100}
+.qz{max-width:760px;margin:0 auto}
+.qz-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.qz-prog{font-size:1.7rem;font-weight:800}
+.qz-score{min-width:120px;padding:6px 20px;border:3px solid var(--ink);border-radius:999px;background:#FFF2BF;font-size:1.8rem;font-weight:900;text-align:center;white-space:nowrap}
+.qz-score.pop b{display:inline-block;animation:qzpop .55s ease}
+@keyframes qzpop{0%{transform:scale(1)}40%{transform:scale(1.9) rotate(-8deg)}100%{transform:scale(1)}}
+.qz-bar{height:14px;margin:12px 0 18px;border:2px solid var(--ink);border-radius:99px;background:var(--soft);overflow:hidden}
+.qz-bar i{display:block;height:100%;width:0;background:#F6C453;transition:width .4s}
+.qz-card{padding:24px 20px;border:2px solid var(--ink);border-radius:24px;background:#FFF8E7}
+.qz-q{margin:0 0 18px;font-size:2rem;font-weight:900;line-height:1.4;word-break:keep-all}
+.qz-opts{display:grid;gap:14px}
+.qz-opt{display:flex;align-items:center;gap:14px;min-height:80px;padding:12px 18px;font:inherit;font-size:1.7rem;font-weight:800;text-align:left;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:20px;cursor:pointer;word-break:keep-all;transition:opacity .3s}
+.qz-opt:active:not(:disabled){transform:scale(.97)}
+.qz-opt:focus-visible,.qz-btn:focus-visible,.mt-b:focus-visible,.mt-cd:focus-visible,.pr-btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.qz-opt b{flex:none;width:46px;height:46px;display:grid;place-items:center;border-radius:50%;background:var(--ink);color:var(--bg);font-size:1.5rem}
+.qz-opt .mk{margin-left:auto;font-size:2rem;font-style:normal}
+.qz-opt.ok{background:#D5EFCB;border-color:#2E8B57}
+.qz-opt.bad{background:#FFD6E3;border-color:#D94F5C;animation:qzshake .4s}
+.qz-opt.dim{opacity:.35}
+.qz-opt:disabled{cursor:default}
+@keyframes qzshake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.qz-exp{display:none;margin-top:18px;padding:16px 18px;border-radius:20px;font-size:1.5rem;word-break:keep-all}
+.qz-exp.show{display:block;animation:qzup .35s ease}
+.qz-exp.ok{background:#D5EFCB;border:3px solid #2E8B57}
+.qz-exp.bad{background:#FFD6E3;border:3px solid #D94F5C}
+.qz-exp h3{margin:0 0 6px;font-size:1.8rem}
+.qz-exp small{display:block;margin-top:8px;font-size:1.25rem;font-weight:700}
+@keyframes qzup{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.qz-btn{display:block;width:100%;min-height:72px;margin-top:16px;font:inherit;font-size:1.7rem;font-weight:800;color:var(--bg);background:var(--ink);border:3px solid var(--ink);border-radius:16px;cursor:pointer}
+.qz-btn.ghost{color:var(--ink);background:transparent}
+.qz-btn:active{transform:scale(.97)}
+.qz-res{text-align:center}
+.qz-big{font-size:110px;line-height:1.1;animation:qzpop .8s ease}
+.qz-res h2{margin:6px 0;font-size:2.2rem;word-break:keep-all}
+.qz-pts{font-size:1.9rem;font-weight:900}
+.qz-line{margin:14px 0;font-size:2.4rem;letter-spacing:10px}
+.mt{padding:0 4px}
+.mt-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px}
+.mt-seg,.mt-stats{display:flex;flex-wrap:wrap;gap:10px}
+.mt-b{min-height:64px;padding:0 24px;font:inherit;font-size:1.6rem;font-weight:800;color:var(--ink);background:var(--bg);border:3px solid var(--ink);border-radius:14px;cursor:pointer}
+.mt-b[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.mt-stat{padding:6px 20px;border:3px solid var(--ink);border-radius:999px;background:#FFF2BF;font-size:1.7rem;font-weight:900;white-space:nowrap}
+.mt-board{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;position:relative;left:50%;transform:translateX(-50%);width:min(calc(100vw - 48px),max(300px,calc((100vh - 430px) * 4.7 / var(--rows,2))));width:min(calc(100vw - 48px),max(300px,calc((100dvh - 430px) * 4.7 / var(--rows,2))))}
+.mt-cd{aspect-ratio:1.2;perspective:900px;container-type:inline-size;padding:0;border:0;background:none;cursor:pointer;font:inherit;color:inherit;display:block}
+.mt-in{position:relative;display:block;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}
+.mt-cd.up .mt-in{transform:rotateY(180deg)}
+.mt-fc{position:absolute;top:0;right:0;bottom:0;left:0;display:flex;flex-direction:column;align-items:center;justify-content:center;border:4px solid var(--ink);border-radius:7cqw;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.mt-fc.num{background:var(--ink);color:var(--bg);font-size:46cqw;font-weight:900}
+.mt-fc.pic{background:#fff;transform:rotateY(180deg);font-size:42cqw;line-height:1.05}
+.mt-fc.pic small{font-size:17cqw;font-weight:900;line-height:1.25}
+.mt-cd.done .mt-fc.pic{background:#D5EFCB;border-color:#2E8B57}
+.mt-cd.done{animation:mthop .5s .5s}
+@keyframes mthop{40%{transform:scale(1.07)}}
+@media (prefers-reduced-motion:reduce){.mt-in{transition:none}.mt-cd.done{animation:none}}
+.mt-cele{position:fixed;top:0;right:0;bottom:0;left:0;z-index:900;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(44,62,80,.6)}
+.mt-box{width:100%;max-width:900px;padding:28px 24px;text-align:center;background:#FFF8E7;border:6px solid #F6C453;border-radius:36px}
+.mt-tro{font-size:min(30vw,240px);line-height:1.05;animation:qzpop .9s ease,mtbob 1.2s .9s infinite ease-in-out}
+.mt-txt{margin:8px 0;font-size:clamp(2.2rem,6vw,4.6rem);font-weight:900;line-height:1.3;word-break:keep-all}
+.mt-sub{font-size:clamp(2rem,5vw,3.4rem);letter-spacing:8px;animation:mtbob 1s infinite ease-in-out}
+@keyframes mtbob{50%{transform:translateY(-14px)}}
+.mt-acts{display:flex;flex-wrap:wrap;gap:14px;margin-top:8px}
+.mt-acts .qz-btn{flex:1;min-width:200px}
+.pr-songs{display:grid;grid-template-columns:1fr;gap:20px}
+@media (min-width:860px){.pr-songs{grid-template-columns:1fr 1fr}}
+.pr-song{display:flex;flex-direction:column;gap:16px;padding:22px 20px;background:#FFF8E7;border:3px solid var(--ink);border-radius:24px}
+.pr-song h2{margin:0;font-size:clamp(2.2rem,4vw,3rem);font-weight:900;line-height:1.25;word-break:keep-all}
+.pr-verse{margin:0;font-size:1.35rem;font-weight:700;word-break:keep-all}
+.pr-vid{aspect-ratio:16/9;display:grid;place-items:center;padding:12px;text-align:center;font-size:1.5rem;font-weight:700;background:var(--soft);border:3px dashed var(--ink);border-radius:20px;overflow:hidden}
+.pr-vid.has{padding:0;border:0;background:#000}
+.pr-vid iframe{display:block;width:100%;height:100%;border:0}
+.pr-btn{display:flex;align-items:center;justify-content:center;min-height:84px;font-size:1.8rem;font-weight:900;color:var(--bg);background:var(--ink);border-radius:20px;text-decoration:none}
+.pr-btn:active{transform:scale(.97)}
+.pr-btn.off{opacity:.4;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>NFC Sunday School</h1>
+    <p id="today"></p>
+  </header>
+
+  <nav aria-label="수업 도구 메뉴">
+    <div role="tablist" id="tabs"></div>
+  </nav>
+  <main id="panels"></main>
+
+<template id="story-tpl">
+<div class="scene-card">
+<svg viewBox="0 0 800 490" role="img" aria-label="엘라 골짜기에서 작은 소년 다윗과 아주 큰 거인 골리앗이 마주 선 그림">
+<defs>
+  <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#BFE3F5"/><stop offset="1" stop-color="#FFF1D2"/></linearGradient>
+  <radialGradient id="sunG"><stop offset="0" stop-color="#FFE9A3"/><stop offset="1" stop-color="#FFE9A3" stop-opacity="0"/></radialGradient>
+  <g id="cloud">
+    <ellipse cx="0" cy="20" rx="58" ry="18" fill="#fff" opacity=".92"/>
+    <ellipse cx="-24" cy="8" rx="26" ry="18" fill="#fff" opacity=".92"/>
+    <ellipse cx="18" cy="2" rx="30" ry="22" fill="#fff" opacity=".92"/>
+  </g>
+  <g id="sheep">
+    <ellipse cx="6" cy="8" rx="34" ry="6" fill="#000" opacity=".08"/>
+    <rect x="-12" y="-4" width="5" height="13" rx="2" fill="#6E5A52"/>
+    <rect x="18" y="-4" width="5" height="13" rx="2" fill="#6E5A52"/>
+    <circle cx="-14" cy="-18" r="14" fill="#FFFBF2"/>
+    <circle cx="6" cy="-25" r="16" fill="#FFFBF2"/>
+    <circle cx="24" cy="-16" r="13" fill="#FFFBF2"/>
+    <ellipse cx="6" cy="-12" rx="30" ry="16" fill="#FFFBF2"/>
+    <ellipse cx="43" cy="-14" rx="11" ry="12" fill="#6E5A52"/>
+    <ellipse cx="35" cy="-23" rx="6" ry="3.5" fill="#6E5A52" transform="rotate(-20 35 -23)"/>
+    <circle cx="46" cy="-17" r="2" fill="#fff"/>
+  </g>
+  <g id="tuft" fill="none" stroke="#7FB866" stroke-width="3" stroke-linecap="round">
+    <path d="M0 0 L-5 -11"/><path d="M0 0 L0 -14"/><path d="M0 0 L5 -11"/>
+  </g>
+  <g id="flower">
+    <circle cx="-5" cy="0" r="4.5" fill="#FFB6C9"/><circle cx="5" cy="0" r="4.5" fill="#FFB6C9"/>
+    <circle cx="0" cy="-5" r="4.5" fill="#FFB6C9"/><circle cx="0" cy="5" r="4.5" fill="#FFB6C9"/>
+    <circle cx="0" cy="0" r="3" fill="#FFE08A"/>
+  </g>
+</defs>
+
+<!-- 하늘 -->
+<rect width="800" height="260" fill="url(#skyG)"/>
+<circle cx="90" cy="72" r="72" fill="url(#sunG)"/>
+<circle cx="90" cy="72" r="32" fill="#FFE08A"/>
+<use href="#cloud" x="270" y="36"/>
+<use href="#cloud" transform="translate(470,96) scale(.8)"/>
+<use href="#cloud" transform="translate(730,40) scale(.7)"/>
+
+<!-- 언덕 -->
+<path d="M0 250 Q120 170 260 225 T520 215 T800 200 L800 400 L0 400 Z" fill="#CFE6B0"/>
+<path d="M0 300 Q160 240 330 290 T620 280 T800 270 L800 420 L0 420 Z" fill="#B5D98F"/>
+
+<!-- 장막 -->
+<g class="drag" data-name="장막">
+  <path d="M105 294 L160 222 L215 294 Z" fill="#F3D7A0"/>
+  <path d="M160 222 L132 294 L105 294 Z" fill="#EBC688"/>
+  <path d="M160 222 L188 294 L215 294 Z" fill="#F8E4B8"/>
+  <path d="M148 294 L160 258 L172 294 Z" fill="#8A6A4A"/>
+  <line x1="160" y1="222" x2="160" y2="206" stroke="#A47A52" stroke-width="4" stroke-linecap="round"/>
+  <path d="M160 206 L178 211 L160 217 Z" fill="#F29BB0"/>
+</g>
+
+<!-- 나무 -->
+<g class="drag" data-name="나무">
+  <rect x="712" y="228" width="16" height="62" rx="6" fill="#B98B5E"/>
+  <circle cx="720" cy="205" r="36" fill="#8CC77B"/>
+  <circle cx="694" cy="228" r="26" fill="#7DB86E"/>
+  <circle cx="748" cy="228" r="26" fill="#7DB86E"/>
+  <circle cx="728" cy="196" r="12" fill="#A5D893" opacity=".7"/>
+</g>
+<g class="drag" data-name="나무">
+  <rect x="34" y="258" width="12" height="44" rx="5" fill="#B98B5E"/>
+  <circle cx="40" cy="240" r="28" fill="#8CC77B"/>
+  <circle cx="22" cy="257" r="19" fill="#7DB86E"/>
+  <circle cx="58" cy="257" r="19" fill="#7DB86E"/>
+</g>
+
+<!-- 풀밭 -->
+<path d="M0 350 Q200 334 400 348 T800 340 L800 490 L0 490 Z" fill="#9ED17E"/>
+<use href="#tuft" x="120" y="392"/><use href="#tuft" x="410" y="384"/>
+<use href="#tuft" x="760" y="400"/><use href="#tuft" x="25" y="430"/>
+<use href="#tuft" x="470" y="470"/><use href="#tuft" x="740" y="462"/>
+<use href="#flower" x="150" y="412"/><use href="#flower" x="430" y="414"/>
+<use href="#flower" x="765" y="436"/><use href="#flower" x="28" y="392"/>
+
+<!-- 양 -->
+<g class="drag" data-name="양"><use href="#sheep" x="46" y="462"/></g>
+<g class="drag" data-name="양"><use href="#sheep" transform="translate(350,458) scale(.8)"/></g>
+
+<!-- 물맷돌 -->
+<g class="drag" data-name="물맷돌">
+  <rect x="276" y="420" width="60" height="38" rx="10" fill="transparent"/>
+  <ellipse cx="290" cy="440" rx="9" ry="6" fill="#B7B2A6"/>
+  <ellipse cx="306" cy="445" rx="8" ry="5.5" fill="#C4BFB3"/>
+  <ellipse cx="299" cy="431" rx="7" ry="5" fill="#C4BFB3"/>
+  <ellipse cx="321" cy="439" rx="9" ry="6" fill="#B7B2A6"/>
+  <ellipse cx="313" cy="430" rx="7" ry="5" fill="#B7B2A6"/>
+  <ellipse cx="287" cy="438" rx="3" ry="1.8" fill="#fff" opacity=".6"/>
+  <ellipse cx="318" cy="436" rx="3" ry="1.8" fill="#fff" opacity=".6"/>
+</g>
+
+<!-- 다윗 (작은 소년) -->
+<g class="drag" data-name="다윗">
+  <ellipse cx="230" cy="432" rx="32" ry="6" fill="#000" opacity=".1"/>
+  <line x1="186" y1="346" x2="186" y2="432" stroke="#A47A52" stroke-width="5" stroke-linecap="round"/>
+  <path d="M186 346 Q186 330 200 330" fill="none" stroke="#A47A52" stroke-width="5" stroke-linecap="round"/>
+  <rect x="217" y="406" width="9" height="24" rx="4" fill="#F2C9A0"/>
+  <rect x="234" y="406" width="9" height="24" rx="4" fill="#F2C9A0"/>
+  <ellipse cx="222" cy="431" rx="9" ry="4" fill="#8A6A4A"/>
+  <ellipse cx="239" cy="431" rx="9" ry="4" fill="#8A6A4A"/>
+  <path d="M208 372 Q230 364 252 372 L256 414 Q230 420 204 414 Z" fill="#F4B16B"/>
+  <rect x="205" y="392" width="50" height="6" rx="3" fill="#A8704A"/>
+  <path d="M210 378 Q198 388 192 394" fill="none" stroke="#F2C9A0" stroke-width="8" stroke-linecap="round"/>
+  <path d="M250 378 Q266 386 274 372" fill="none" stroke="#F2C9A0" stroke-width="8" stroke-linecap="round"/>
+  <path d="M274 372 Q292 352 281 336" fill="none" stroke="#8A6A4A" stroke-width="2.5"/>
+  <path d="M274 372 Q262 348 281 336" fill="none" stroke="#8A6A4A" stroke-width="2.5"/>
+  <circle class="sling-stone" cx="281" cy="333" r="6" fill="#B7B2A6"/>
+  <rect x="224" y="362" width="12" height="10" rx="4" fill="#F2C9A0"/>
+  <circle cx="230" cy="350" r="20" fill="#F7D3AE"/>
+  <path d="M210 348 Q210 328 230 328 Q250 328 250 348 Q242 338 230 338 Q218 338 210 348 Z" fill="#7A4B2A"/>
+  <circle cx="223" cy="352" r="2.4" fill="#4A3328"/>
+  <circle cx="237" cy="352" r="2.4" fill="#4A3328"/>
+  <ellipse cx="217" cy="358" rx="5" ry="3" fill="#F29BB0" opacity=".5"/>
+  <ellipse cx="243" cy="358" rx="5" ry="3" fill="#F29BB0" opacity=".5"/>
+  <path d="M224 359 Q230 365 236 359" fill="none" stroke="#B5654A" stroke-width="2" stroke-linecap="round"/>
+</g>
+
+<!-- 골리앗 (아주 큰 거인) -->
+<g class="drag" data-name="골리앗">
+  <ellipse cx="590" cy="432" rx="78" ry="9" fill="#000" opacity=".1"/>
+  <line x1="668" y1="70" x2="668" y2="432" stroke="#8A6A4A" stroke-width="8" stroke-linecap="round"/>
+  <path d="M668 38 L680 72 L656 72 Z" fill="#CBD3DC"/>
+  <rect x="558" y="345" width="30" height="82" rx="12" fill="#E8BC91"/>
+  <rect x="594" y="345" width="30" height="82" rx="12" fill="#E8BC91"/>
+  <rect x="556" y="382" width="34" height="36" rx="10" fill="#D6A25C"/>
+  <rect x="592" y="382" width="34" height="36" rx="10" fill="#D6A25C"/>
+  <ellipse cx="573" cy="431" rx="22" ry="8" fill="#7A5A44"/>
+  <ellipse cx="609" cy="431" rx="22" ry="8" fill="#7A5A44"/>
+  <path d="M538 282 L642 282 L652 362 Q590 374 528 362 Z" fill="#D98C6E"/>
+  <path d="M566 288 L560 364 M590 288 L590 370 M614 288 L620 364" fill="none" stroke="#C27659" stroke-width="3" stroke-linecap="round"/>
+  <path d="M548 190 Q520 230 524 268" fill="none" stroke="#E8BC91" stroke-width="24" stroke-linecap="round"/>
+  <path d="M632 190 Q660 215 666 250" fill="none" stroke="#E8BC91" stroke-width="24" stroke-linecap="round"/>
+  <rect x="540" y="172" width="100" height="120" rx="26" fill="#D9A95F"/>
+  <path d="M556 204 q10 10 20 0 q10 10 20 0 q10 10 20 0 q10 10 20 0" fill="none" stroke="#B98544" stroke-width="3" stroke-linecap="round"/>
+  <path d="M556 226 q10 10 20 0 q10 10 20 0 q10 10 20 0 q10 10 20 0" fill="none" stroke="#B98544" stroke-width="3" stroke-linecap="round"/>
+  <path d="M556 248 q10 10 20 0 q10 10 20 0 q10 10 20 0 q10 10 20 0" fill="none" stroke="#B98544" stroke-width="3" stroke-linecap="round"/>
+  <rect x="540" y="278" width="100" height="14" rx="5" fill="#8A6A4A"/>
+  <circle cx="590" cy="285" r="8" fill="#F6C453"/>
+  <circle cx="545" cy="190" r="20" fill="#D9A95F"/>
+  <circle cx="635" cy="190" r="20" fill="#D9A95F"/>
+  <circle cx="508" cy="264" r="42" fill="#C9835F"/>
+  <circle cx="508" cy="264" r="31" fill="#E6A87F"/>
+  <circle cx="508" cy="264" r="10" fill="#D9A95F"/>
+  <circle cx="667" cy="252" r="13" fill="#E8BC91"/>
+  <rect x="576" y="156" width="28" height="22" rx="8" fill="#E8BC91"/>
+  <circle cx="590" cy="132" r="36" fill="#F0C8A0"/>
+  <path d="M558 138 Q562 178 590 182 Q618 178 622 138 Q606 156 590 156 Q574 156 558 138 Z" fill="#8A5B3A"/>
+  <circle cx="577" cy="130" r="3.5" fill="#4A3328"/>
+  <circle cx="603" cy="130" r="3.5" fill="#4A3328"/>
+  <path d="M569 119 L584 124 M611 119 L596 124" fill="none" stroke="#5A3A28" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="590" cy="141" rx="4" ry="3" fill="#E3AE88"/>
+  <path d="M583 150 Q590 147 597 150" fill="none" stroke="#8A4A3A" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M552 128 Q552 84 590 84 Q628 84 628 128 Q590 112 552 128 Z" fill="#D6A25C"/>
+  <path d="M590 85 Q586 62 608 66 Q598 74 601 87 Z" fill="#D98C6E"/>
+  <rect x="587" y="100" width="6" height="22" rx="3" fill="#C48D48"/>
+</g>
+
+<!-- 이름표 -->
+<g class="tag" data-for="다윗"><rect x="190" y="442" width="80" height="34" rx="17" fill="#FFF8E7" opacity=".95"/>
+<text x="230" y="466" text-anchor="middle" font-size="24" font-weight="800" fill="#2C3E50" font-family="'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif">다윗</text></g>
+<g class="tag" data-for="골리앗"><rect x="540" y="442" width="100" height="34" rx="17" fill="#FFF8E7" opacity=".95"/>
+<text x="590" y="466" text-anchor="middle" font-size="24" font-weight="800" fill="#2C3E50" font-family="'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif">골리앗</text></g>
+</svg>
+<p class="scene-cap">엘라 골짜기에서 작은 다윗이 커다란 골리앗 앞에 섰어요</p>
+</div>
+<div class="scene-actions"><button type="button" class="fall-btn">골리앗 쓰러뜨리기</button><button type="button" class="reset-btn">처음으로</button></div>
+<details class="think">
+  <summary>함께 생각해 볼까요?</summary>
+  <div class="q-grid">
+    <button type="button" class="q-card c1"><span class="q-num">질문 1</span><span class="q-text">사울 왕이 갑옷을 입혔는데 다윗은 왜 벗었을까요?</span></button>
+    <button type="button" class="q-card c2"><span class="q-num">질문 2</span><span class="q-text">다윗이 시냇가에서 고른 것은 무엇이었나요? 왜 그것이었을까요?</span></button>
+    <button type="button" class="q-card c3"><span class="q-num">질문 3</span><span class="q-text">골리앗이 다윗을 보고 웃었어요. 그때 다윗의 마음은 어땠을까요?</span></button>
+    <button type="button" class="q-card c4"><span class="q-num">질문 4</span><span class="q-text">여러분 앞에 있는 골리앗은 무엇인가요?</span></button>
+  </div>
+</details>
+<div class="q-full c1" role="dialog" aria-modal="true" aria-label="함께 생각해 볼까요?" hidden>
+  <p class="qf-count"></p>
+  <p class="qf-text"></p>
+  <div class="qf-nav">
+    <button type="button" class="qf-btn qf-prev">← 이전</button>
+    <button type="button" class="qf-btn qf-close">닫기</button>
+    <button type="button" class="qf-btn qf-next">다음 →</button>
+  </div>
+</div>
+</template>
+</div>
+
+<script>
+(function(){
+  var names=["찬양","공과","성경 이야기","퀴즈","짝 맞추기","출석","달란트","반 관리"];
+  var tabs=document.getElementById("tabs");
+  var panels=document.getElementById("panels");
+
+  var d=new Date();
+  var days=["일","월","화","수","목","금","토"];
+  document.getElementById("today").textContent=
+    "오늘은 "+d.getFullYear()+"년 "+(d.getMonth()+1)+"월 "+d.getDate()+"일 "+days[d.getDay()]+"요일";
+
+  names.forEach(function(n,i){
+    var b=document.createElement("button");
+    b.type="button";b.id="tab-"+i;b.textContent=n;
+    b.setAttribute("role","tab");
+    b.setAttribute("aria-controls","panel-"+i);
+    b.setAttribute("aria-selected",n==="공과"?"true":"false");
+    b.tabIndex=n==="공과"?0:-1;
+    b.addEventListener("click",function(){select(i)});
+    b.addEventListener("keydown",function(e){
+      if(e.key==="ArrowRight")select((i+1)%names.length,true);
+      if(e.key==="ArrowLeft")select((i+names.length-1)%names.length,true);
+    });
+    tabs.appendChild(b);
+
+    var p=document.createElement("section");
+    p.id="panel-"+i;p.setAttribute("role","tabpanel");
+    p.setAttribute("aria-labelledby","tab-"+i);
+    if(n!=="공과")p.hidden=true;
+    if(n==="공과"){
+      p.classList.add("lesson");
+      p.innerHTML=
+        '<div class="cover">'+
+          '<h2>다윗과 골리앗</h2>'+
+          '<p class="sub">하나님이 함께하시면</p>'+
+          '<p class="ask">키가 크고 힘이 센 사람이 이기는 걸까요?</p>'+
+          '<div class="verse">'+
+            '<p class="ref">사무엘상 17장 45절</p>'+
+            '<p class="text">다윗이 블레셋 사람에게 이르되 너는 칼과 창과 단창으로 내게 나아 오거니와 나는 만군의 여호와의 이름 곧 네가 모욕하는 이스라엘 군대의 하나님의 이름으로 네게 나아가노라</p>'+
+          '</div>'+
+        '</div>'+
+        '<details class="flow">'+
+          '<summary>수업 흐름 (총 40분)</summary>'+
+          '<ol class="steps">'+
+            '<li><button type="button" class="row"><span class="st">도입</span><span>마음 열기</span><span class="now">지금</span><span class="tm">5분</span></button></li>'+
+            '<li><button type="button" class="row"><span class="st">말씀</span><span>성경 이야기</span><span class="now">지금</span><span class="tm">12분</span></button></li>'+
+            '<li><button type="button" class="row"><span class="st">활동</span><span>짝 맞추기와 퀴즈</span><span class="now">지금</span><span class="tm">10분</span></button></li>'+
+            '<li><button type="button" class="row"><span class="st">적용</span><span>나의 골리앗</span><span class="now">지금</span><span class="tm">8분</span></button></li>'+
+            '<li><button type="button" class="row"><span class="st">기도</span><span>함께</span><span class="now">지금</span><span class="tm">5분</span></button></li>'+
+          '</ol>'+
+        '</details>';
+      var rows=p.querySelectorAll(".row");
+      rows.forEach(function(r){
+        r.addEventListener("click",function(){
+          var on=r.getAttribute("aria-current")==="step";
+          rows.forEach(function(x){x.removeAttribute("aria-current")});
+          if(!on)r.setAttribute("aria-current","step");
+        });
+      });
+    }else if(n==="성경 이야기"){
+      p.classList.add("lesson");
+      p.innerHTML=document.getElementById("story-tpl").innerHTML;
+      initStory(p);
+      initThink(p);
+    }else if(n==="퀴즈"){
+      p.classList.add("lesson");initQuiz(p);
+    }else if(n==="짝 맞추기"){
+      p.classList.add("lesson");initMatch(p);
+    }else if(n==="찬양"){
+      initPraise(p);
+    }else{
+      p.innerHTML='<h2 class="panel-title"></h2><p class="panel-note">다음 주에 만듭니다</p>';
+      p.querySelector("h2").textContent=n;
+    }
+    panels.appendChild(p);
+  });
+
+  function initStory(panel){
+    var svg=panel.querySelector("svg");
+    var NS="http://www.w3.org/2000/svg";
+    var VW=800,VH=490;
+    var layer=document.createElementNS(NS,"g");
+    svg.appendChild(layer);
+
+    Array.prototype.forEach.call(svg.querySelectorAll(".tag"),function(t){
+      var f=svg.querySelector('.drag[data-name="'+t.getAttribute("data-for")+'"]');
+      if(f)f.appendChild(t);
+    });
+
+    var items=Array.prototype.slice.call(svg.querySelectorAll(".drag"));
+    items.forEach(function(g){g._x=0;g._y=0;layer.appendChild(g);});
+
+    var cur=null;
+    function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+    function toSvg(e){
+      var m=svg.getScreenCTM();
+      if(!m)return null;
+      var pt=svg.createSVGPoint();
+      pt.x=e.clientX;pt.y=e.clientY;
+      return pt.matrixTransform(m.inverse());
+    }
+    function setPos(g,x,y,r){
+      g._x=x;g._y=y;
+      if(r!==undefined)g._r=r;
+      g.style.transform="translate("+x+"px,"+y+"px) rotate("+(g._r||0)+"deg)";
+    }
+
+    svg.addEventListener("pointerdown",function(e){
+      if(cur)return;
+      if(e.pointerType==="mouse"&&e.button!==0)return;
+      var g=e.target.closest&&e.target.closest(".drag");
+      if(!g)return;
+      var p=toSvg(e);
+      if(!p)return;
+      var b=boxOf(g);
+      cur={g:g,id:e.pointerId,sx:p.x,sy:p.y,cx:e.clientX,cy:e.clientY,x0:g._x,y0:g._y,
+        minx:-b.x,maxx:VW-(b.x+b.width),miny:-b.y,maxy:VH-(b.y+b.height)};
+      g.classList.remove("returning","falling");
+      layer.appendChild(g);
+      g.classList.add("dragging");
+      try{svg.setPointerCapture(e.pointerId);}catch(_){}
+      e.preventDefault();
+    });
+
+    svg.addEventListener("pointermove",function(e){
+      if(!cur||e.pointerId!==cur.id)return;
+      var p=toSvg(e);
+      if(!p)return;
+      setPos(cur.g,
+        clamp(cur.x0+p.x-cur.sx,cur.minx,cur.maxx),
+        clamp(cur.y0+p.y-cur.sy,cur.miny,cur.maxy));
+      e.preventDefault();
+    });
+
+    function end(e){
+      if(!cur||e.pointerId!==cur.id)return;
+      cur.g.classList.remove("dragging");
+      try{svg.releasePointerCapture(e.pointerId);}catch(_){}
+      cur=null;
+    }
+    svg.addEventListener("pointerup",function(e){
+      var c=cur;
+      end(e);
+      if(!c||e.pointerId!==c.id||c.g!==gol)return;
+      if(Math.abs(e.clientX-c.cx)>10||Math.abs(e.clientY-c.cy)>10){lastTap=0;return;}
+      var now=Date.now();
+      if(now-lastTap<450){lastTap=0;fall();}
+      else lastTap=now;
+    });
+    svg.addEventListener("pointercancel",end);
+    svg.addEventListener("lostpointercapture",end);
+
+    var gol=svg.querySelector('.drag[data-name="골리앗"]');
+    var dav=svg.querySelector('.drag[data-name="다윗"]');
+    var fallBtn=panel.querySelector(".fall-btn");
+    var fallen=false,token=0,lastTap=0;
+
+    function boxOf(g){
+      var b=g.getBBox();
+      if(g._r===-90){
+        return {x:558+(b.y-432),y:432-(b.x+b.width-558),width:b.height,height:b.width};
+      }
+      return b;
+    }
+    function fall(){
+      if(cur||fallen)return;
+      fallen=true;
+      fallBtn.disabled=true;
+      var t=++token;
+      svg.classList.add("fired");
+      var s0={x:281+dav._x,y:333+dav._y};
+      var s1={x:590+gol._x,y:112+gol._y};
+      var stone=document.createElementNS(NS,"circle");
+      stone.setAttribute("class","flystone");
+      stone.setAttribute("r","7");
+      stone.setAttribute("fill","#B7B2A6");
+      stone.setAttribute("stroke","#9A9488");
+      stone.setAttribute("stroke-width","2");
+      svg.appendChild(stone);
+      var t0=null;
+      function step(ts){
+        if(t!==token){stone.remove();return;}
+        if(t0===null)t0=ts;
+        var k=Math.min(1,(ts-t0)/650);
+        stone.setAttribute("cx",s0.x+(s1.x-s0.x)*k);
+        stone.setAttribute("cy",s0.y+(s1.y-s0.y)*k-Math.sin(Math.PI*k)*70);
+        if(k<1)requestAnimationFrame(step);
+        else{stone.remove();topple(t);}
+      }
+      requestAnimationFrame(step);
+    }
+    function topple(t){
+      if(t!==token)return;
+      gol._r=-90;
+      var b=boxOf(gol);
+      var tx=clamp(gol._x+90,-b.x,VW-(b.x+b.width));
+      var ty=clamp(gol._y,-b.y,VH-(b.y+b.height));
+      gol.classList.remove("returning");
+      gol.classList.add("falling");
+      svg.classList.add("is-fallen");
+      setPos(gol,tx,ty,-90);
+      setTimeout(function(){
+        if(t!==token)return;
+        gol.classList.remove("falling");
+        var th=document.createElementNS(NS,"text");
+        th.setAttribute("class","thud");
+        th.setAttribute("x",String(258+tx));
+        th.setAttribute("y",String(330+ty));
+        th.textContent="쿵!";
+        svg.appendChild(th);
+        setTimeout(function(){th.remove();},1300);
+      },950);
+    }
+    function resetFall(){
+      token++;
+      fallen=false;
+      fallBtn.disabled=false;
+      gol.classList.remove("falling");
+      svg.classList.remove("fired","is-fallen");
+      Array.prototype.forEach.call(svg.querySelectorAll(".thud,.flystone"),function(n){n.remove();});
+    }
+    fallBtn.addEventListener("click",fall);
+
+    svg.addEventListener("touchmove",function(e){
+      if(cur&&e.cancelable)e.preventDefault();
+    },{passive:false});
+
+    panel.querySelector(".reset-btn").addEventListener("click",function(){
+      if(cur)return;
+      resetFall();
+      items.forEach(function(g){layer.appendChild(g);});
+      void svg.getBoundingClientRect();
+      items.forEach(function(g){
+        g.classList.add("returning");
+        setPos(g,0,0,0);
+      });
+      setTimeout(function(){
+        items.forEach(function(g){g.classList.remove("returning");});
+      },450);
+    });
+  }
+
+  function initThink(panel){
+    var cards=Array.prototype.slice.call(panel.querySelectorAll(".q-card"));
+    var ov=panel.querySelector(".q-full");
+    var cnt=ov.querySelector(".qf-count");
+    var txt=ov.querySelector(".qf-text");
+    var prev=ov.querySelector(".qf-prev");
+    var next=ov.querySelector(".qf-next");
+    var close=ov.querySelector(".qf-close");
+    var n=cards.length,idx=0,opener=null,sx=null;
+
+    function show(i){
+      idx=(i+n)%n;
+      ov.className="q-full c"+(idx+1);
+      cnt.textContent="질문 "+(idx+1)+" / "+n;
+      txt.textContent=cards[idx].querySelector(".q-text").textContent;
+    }
+    function onKey(e){
+      if(e.key==="Escape"){e.preventDefault();shut();}
+      else if(e.key==="ArrowRight"){show(idx+1);}
+      else if(e.key==="ArrowLeft"){show(idx-1);}
+      else if(e.key==="Tab"){
+        var f=[prev,close,next],k=f.indexOf(document.activeElement);
+        if(e.shiftKey){if(k<=0){e.preventDefault();f[f.length-1].focus();}}
+        else if(k<0||k===f.length-1){e.preventDefault();f[0].focus();}
+      }
+    }
+    function open(i){
+      opener=cards[i];
+      show(i);
+      ov.hidden=false;
+      document.body.style.overflow="hidden";
+      document.addEventListener("keydown",onKey);
+      close.focus();
+    }
+    function shut(){
+      ov.hidden=true;
+      document.body.style.overflow="";
+      document.removeEventListener("keydown",onKey);
+      if(opener)opener.focus();
+    }
+
+    cards.forEach(function(c,i){c.addEventListener("click",function(){open(i);});});
+    prev.addEventListener("click",function(){show(idx-1);});
+    next.addEventListener("click",function(){show(idx+1);});
+    close.addEventListener("click",shut);
+
+    ov.addEventListener("pointerdown",function(e){
+      if(e.target.closest("button"))return;
+      sx=e.clientX;
+    });
+    ov.addEventListener("pointerup",function(e){
+      if(sx===null)return;
+      var dx=e.clientX-sx;
+      sx=null;
+      if(Math.abs(dx)>60)show(idx+(dx<0?1:-1));
+    });
+    ov.addEventListener("pointercancel",function(){sx=null;});
+  }
+
+  /* ===== 퀴즈 · 짝 맞추기 · 찬양 ===== */
+  var cfCv=null,cfCx=null,cfP=[],cfRun=false;
+  var CF_COL=["#ff5964","#ffd23f","#3bceac","#4d9de0","#a45ee5","#ff9f1c"];
+  function confetti(n,y,s){
+    if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+    if(!cfCv){
+      cfCv=document.createElement("canvas");cfCv.className="fx-canvas";cfCv.setAttribute("aria-hidden","true");
+      document.body.appendChild(cfCv);cfCx=cfCv.getContext("2d");
+      var fit=function(){cfCv.width=window.innerWidth;cfCv.height=window.innerHeight;};
+      fit();window.addEventListener("resize",fit);
+    }
+    for(var k=0;k<n;k++){
+      cfP.push({x:cfCv.width*(0.15+Math.random()*0.7),y:cfCv.height*y,vx:(Math.random()-.5)*12,vy:-Math.random()*13-3,
+        w:(6+Math.random()*8)*(s||1),h:(10+Math.random()*10)*(s||1),r:Math.random()*6,vr:(Math.random()-.5)*.4,
+        c:CF_COL[Math.floor(Math.random()*CF_COL.length)],life:110+Math.random()*60});
+    }
+    if(!cfRun){cfRun=true;requestAnimationFrame(cfTick);}
+  }
+  function cfTick(){
+    cfCx.clearRect(0,0,cfCv.width,cfCv.height);
+    cfP=cfP.filter(function(q){return q.life>0&&q.y<cfCv.height+30;});
+    cfP.forEach(function(q){
+      q.vy+=.35;q.x+=q.vx;q.y+=q.vy;q.vx*=.99;q.r+=q.vr;q.life--;
+      cfCx.save();cfCx.translate(q.x,q.y);cfCx.rotate(q.r);
+      cfCx.globalAlpha=Math.min(1,q.life/30);cfCx.fillStyle=q.c;
+      cfCx.fillRect(-q.w/2,-q.h/2,q.w,q.h);cfCx.restore();
+    });
+    if(cfP.length)requestAnimationFrame(cfTick);
+    else{cfRun=false;cfCx.clearRect(0,0,cfCv.width,cfCv.height);}
+  }
+  function shuf(a){
+    for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var t=a[k];a[k]=a[j];a[j]=t;}
+    return a;
+  }
+
+  function initQuiz(p){
+    var Q=[
+      {q:"골리앗은 어느 나라 사람이었을까요?",o:["블레셋 사람","애굽(이집트) 사람","바벨론 사람"],a:0,
+       e:"골리앗은 이스라엘과 싸우러 온 블레셋 군대의 용사였어요.",v:"사무엘상 17장 1절, 4절"},
+      {q:"다윗은 왜 전쟁터에 가게 되었을까요?",o:["사울 왕이 싸우라고 불러서","아버지 심부름으로 형들에게 음식을 가져다주려고","골리앗과 싸우겠다고 스스로 정해서"],a:1,
+       e:"아버지 이새가 볶은 곡식과 떡을 형들에게 전해 주라고 다윗을 보냈어요.",v:"사무엘상 17장 17~18절"},
+      {q:"사울 왕이 입혀 준 갑옷을 다윗은 어떻게 했을까요?",o:["그대로 입고 싸우러 나갔다","익숙하지 않다고 하며 벗었다","형에게 주었다"],a:1,
+       e:"갑옷이 익숙하지 않아서 입고는 갈 수 없다고 말하고 벗었어요.",v:"사무엘상 17장 38~39절"},
+      {q:"다윗은 시냇가에서 매끄러운 돌을 몇 개 골랐을까요?",o:["한 개","세 개","다섯 개"],a:2,
+       e:"다윗은 시내에서 매끄러운 돌 다섯 개를 골라 목자의 주머니에 넣었어요.",v:"사무엘상 17장 40절"},
+      {q:"다윗은 골리앗에게 누구의 이름으로 나아간다고 말했을까요?",o:["사울 왕의 이름","자기 자신의 힘","만군의 여호와의 이름"],a:2,
+       e:"다윗은 칼과 창이 아니라 하나님의 이름을 의지하고 나아갔어요.",v:"사무엘상 17장 45절"}
+    ];
+    p.innerHTML=`<div class="qz">
+      <div class="qz-top"><div class="qz-prog"></div><div class="qz-score" aria-live="polite">⭐ <b>0</b></div></div>
+      <div class="qz-bar"><i></i></div>
+      <div class="qz-card qz-main"><p class="qz-q"></p><div class="qz-opts"></div><div class="qz-exp" aria-live="polite"></div>
+        <button type="button" class="qz-btn qz-next" hidden>다음 문제 ➡️</button></div>
+      <div class="qz-card qz-res" hidden><div class="qz-big"></div><h2></h2><div class="qz-pts"></div><div class="qz-line"></div></div>
+      <button type="button" class="qz-btn ghost qz-restart">🔄 처음부터</button>
+    </div>`;
+    var q=function(s){return p.querySelector(s);};
+    var prog=q(".qz-prog"),fill=q(".qz-bar i"),main=q(".qz-main"),resBox=q(".qz-res"),
+        qEl=q(".qz-q"),opts=q(".qz-opts"),exp=q(".qz-exp"),next=q(".qz-next"),sc=q(".qz-score");
+    var i=0,score=0,res=[],done=false;
+
+    function show(){
+      done=false;main.hidden=false;resBox.hidden=true;
+      prog.textContent="문제 "+(i+1)+" / "+Q.length;
+      fill.style.width=(i/Q.length*100)+"%";
+      qEl.textContent=Q[i].q;opts.innerHTML="";
+      Q[i].o.forEach(function(t,k){
+        var b=document.createElement("button");b.type="button";b.className="qz-opt";
+        b.innerHTML='<b>'+(k+1)+'</b><span></span><em class="mk"></em>';
+        b.children[1].textContent=t;
+        b.addEventListener("click",function(){pick(k);});
+        opts.appendChild(b);
+      });
+      exp.className="qz-exp";exp.innerHTML="";
+      next.hidden=true;
+      next.textContent=i===Q.length-1?"결과 보기 🏆":"다음 문제 ➡️";
+    }
+    function pick(k){
+      if(done)return;done=true;
+      var d1=Q[i],right=k===d1.a,bs=opts.children;
+      for(var n=0;n<bs.length;n++){
+        bs[n].disabled=true;
+        if(n===d1.a){bs[n].classList.add("ok");bs[n].querySelector(".mk").textContent="✅";}
+        else if(n===k){bs[n].classList.add("bad");bs[n].querySelector(".mk").textContent="❌";}
+        else bs[n].classList.add("dim");
+      }
+      res.push(right);
+      if(right){
+        score++;
+        sc.querySelector("b").textContent=score;
+        sc.classList.remove("pop");void sc.offsetWidth;sc.classList.add("pop");
+        confetti(90,0.35);
+      }
+      exp.className="qz-exp show "+(right?"ok":"bad");
+      exp.innerHTML="<h3></h3><div></div><small></small>";
+      exp.children[0].textContent=right?"🎉 맞았어요!":"😮 아깝지만 괜찮아요!";
+      exp.children[1].textContent=(right?"":"정답은 "+(d1.a+1)+"번이에요. ")+d1.e;
+      exp.children[2].textContent="📖 "+d1.v;
+      next.hidden=false;
+      fill.style.width=((i+1)/Q.length*100)+"%";
+      setTimeout(function(){next.scrollIntoView({behavior:"smooth",block:"nearest"});},350);
+    }
+    function result(){
+      main.hidden=true;resBox.hidden=false;
+      prog.textContent="결과";fill.style.width="100%";
+      var m,t;
+      if(score===5){m="🏆";t="만점! 성경 탐험대 대장이에요!";}
+      else if(score===4){m="🥇";t="금메달! 정말 잘했어요!";}
+      else if(score===3){m="🥈";t="은메달! 멋져요!";}
+      else if(score===2){m="🥉";t="동메달! 조금만 더 힘내요!";}
+      else{m="🌱";t="괜찮아요! 다시 도전해 봐요!";}
+      resBox.querySelector(".qz-big").textContent=m;
+      resBox.querySelector("h2").textContent=t;
+      resBox.querySelector(".qz-pts").textContent="⭐ "+score+" / "+Q.length;
+      resBox.querySelector(".qz-line").textContent=res.map(function(r){return r?"⭐":"·";}).join(" ");
+      if(score>=3){confetti(220,0.3);setTimeout(function(){confetti(160,0.4);},600);
+        if(score>=4)setTimeout(function(){confetti(160,0.25);},1200);}
+    }
+    next.addEventListener("click",function(){
+      if(i<Q.length-1){i++;show();}else result();
+    });
+    q(".qz-restart").addEventListener("click",function(){
+      i=0;score=0;res=[];sc.querySelector("b").textContent=0;show();
+    });
+    show();
+  }
+
+  function initMatch(p){
+    var GI=[["🐑","양"],["🪨","물맷돌"],["🗡️","칼"],["🪖","투구"],["🛡️","방패"],["BLUE","방패"]];
+    var GI6=[["🐑","양"],["🪨","물맷돌"],["🗡️","칼"],["🪖","투구"],["STAFF","다윗의 지팡이"],["🛡️","방패"]];
+    p.innerHTML=`<div class="mt">
+      <div class="mt-bar">
+        <div class="mt-seg" role="group" aria-label="난이도">
+          <button type="button" class="mt-b mt-lvl" data-n="4" aria-pressed="true">쉬움 4쌍</button>
+          <button type="button" class="mt-b mt-lvl" data-n="6" aria-pressed="false">보통 6쌍</button>
+          <button type="button" class="mt-b mt-shuf">🔀 다시 섞기</button>
+        </div>
+        <div class="mt-stats">
+          <div class="mt-stat">🧩 맞춘 짝 <span class="mt-m">0</span> / <span class="mt-t">4</span></div>
+          <div class="mt-stat">👆 뒤집기 <span class="mt-fl">0</span></div>
+        </div>
+      </div>
+      <div class="mt-board"></div>
+      <div class="mt-cele" hidden><div class="mt-box" role="status">
+        <div class="mt-tro">🏆</div><div class="mt-txt"></div><div class="mt-sub">⭐ 👏 ⭐ 🎉 ⭐ 👏 ⭐</div>
+        <div class="mt-acts"><button type="button" class="qz-btn mt-again">🔀 다시 하기</button>
+        <button type="button" class="qz-btn ghost mt-close">닫기</button></div>
+      </div></div>
+    </div>`;
+    var q=function(s){return p.querySelector(s);};
+    var board=q(".mt-board"),cele=q(".mt-cele");
+    var pairs=4,opened=[],lock=false,gm=0,gf=0;
+
+    function deal(){
+      opened=[];lock=false;gm=0;gf=0;
+      q(".mt-m").textContent=0;q(".mt-fl").textContent=0;q(".mt-t").textContent=pairs;
+      cele.hidden=true;
+      var deck=[];
+      shuf((pairs===6?GI6:GI).slice()).slice(0,pairs).forEach(function(g,n){deck.push({id:g[0],g:g});deck.push({id:g[0],g:g});});
+      shuf(deck);
+      board.innerHTML="";
+      board.style.setProperty("--rows",Math.ceil(deck.length/4));
+      deck.forEach(function(c,k){
+        var b=document.createElement("button");
+        b.type="button";b.className="mt-cd";b.setAttribute("aria-label",(k+1)+"번 카드");
+        b.innerHTML='<span class="mt-in"><span class="mt-fc num"></span><span class="mt-fc pic"><span></span><small></small></span></span>';
+        b.querySelector(".num").textContent=k+1;
+        var ps=b.querySelector(".pic span");
+        if(c.g[0]==="STAFF"){
+          ps.style.cssText="display:block;width:40cqw;height:42cqw";
+          ps.innerHTML='<svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true"><path d="M60 97V38C60 6 22 6 22 36V44" fill="none" stroke="#7A4A1E" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M57 90V40" fill="none" stroke="#C98B4B" stroke-width="2.5" stroke-linecap="round"/></svg>';
+        }else if(c.g[0]==="BLUE"){
+          ps.style.cssText="display:block;width:40cqw;height:42cqw";
+          ps.innerHTML='<svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true"><path d="M50 6L88 18V50C88 74 70 90 50 96C30 90 12 74 12 50V18Z" fill="#2F6FDB" stroke="#1B3F8A" stroke-width="5" stroke-linejoin="round"/><path d="M50 14L80 23V50C80 68 66 81 50 87Z" fill="#4F8CF0"/><path d="M50 14V87" stroke="#1B3F8A" stroke-width="3"/></svg>';
+        }else ps.textContent=c.g[0];
+        b.querySelector(".pic small").textContent=c.g[1];
+        if(c.g[1].length>4)b.querySelector(".pic small").style.fontSize="12cqw";
+        b.addEventListener("click",function(){flip(b,c);});
+        board.appendChild(b);
+      });
+    }
+    function flip(b,c){
+      if(lock||b.classList.contains("up"))return;
+      b.classList.add("up");gf++;q(".mt-fl").textContent=gf;
+      opened.push({b:b,c:c});
+      if(opened.length<2)return;
+      var x=opened[0],y=opened[1];
+      if(x.c.id===y.c.id){
+        x.b.classList.add("done");y.b.classList.add("done");
+        opened=[];gm++;q(".mt-m").textContent=gm;
+        if(gm===pairs){
+          setTimeout(function(){
+            q(".mt-txt").textContent="🎉 "+gf+"번 만에 다 맞혔어요! 🎉";
+            cele.hidden=false;
+            [0,500,1000,1600,2300,3100].forEach(function(t){
+              setTimeout(function(){confetti(260,0.25+Math.random()*0.2,1.7);},t);
+            });
+          },800);
+        }
+      }else{
+        lock=true;
+        setTimeout(function(){
+          x.b.classList.remove("up");y.b.classList.remove("up");
+          opened=[];lock=false;
+        },2800);
+      }
+    }
+    Array.prototype.forEach.call(p.querySelectorAll(".mt-lvl"),function(l){
+      l.addEventListener("click",function(){
+        Array.prototype.forEach.call(p.querySelectorAll(".mt-lvl"),function(o){o.setAttribute("aria-pressed","false");});
+        l.setAttribute("aria-pressed","true");pairs=+l.getAttribute("data-n");deal();
+      });
+    });
+    q(".mt-shuf").addEventListener("click",deal);
+    q(".mt-again").addEventListener("click",deal);
+    q(".mt-close").addEventListener("click",function(){cele.hidden=true;});
+    deal();
+  }
+
+  function ytId(u){
+    try{
+      var x=new URL(u),h=x.hostname.toLowerCase(),id="";
+      if(h.indexOf("www.")===0||h.indexOf("m.")===0)h=h.slice(h.indexOf(".")+1);
+      if(h==="youtu.be")id=x.pathname.split("/")[1]||"";
+      else if(h==="youtube.com"){
+        var s=x.pathname.split("/");
+        id=x.searchParams.get("v")||((s[1]==="embed"||s[1]==="shorts"||s[1]==="live")?s[2]:"")||"";
+      }
+      return /^[A-Za-z0-9_-]{11}$/.test(id)?id:"";
+    }catch(e){return "";}
+  }
+  function initPraise(p){
+    var SONGS=[
+      {title:"강하고 담대하라",verse:"강하고 담대하라 … 네 하나님 여호와가 너와 함께 하느니라 (여호수아 1:9)",link:"https://www.youtube.com/watch?v=eCwbetnDdr0"},
+      {title:"하나님은 너를 지키시는 자",verse:"여호와는 너를 지키시는 이시라 (시편 121:5)",link:"https://www.youtube.com/watch?v=jaFSv5iCaz8"}
+    ];
+    p.classList.add("lesson");
+    p.innerHTML='<div class="pr-songs"></div>';
+    var box=p.querySelector(".pr-songs");
+    function draw(){
+      box.innerHTML="";
+      SONGS.forEach(function(s){
+        var id=ytId(s.link),ok=/^https?:\/\//.test(s.link);
+        var c=document.createElement("section");c.className="pr-song";
+        c.innerHTML='<h2></h2><p class="pr-verse"></p><div class="pr-vid"></div><a class="pr-btn" target="_blank" rel="noopener noreferrer">▶️ 유튜브에서 열기</a>';
+        c.querySelector("h2").textContent=s.title;
+        c.querySelector(".pr-verse").textContent=s.verse;
+        var v=c.querySelector(".pr-vid");
+        if(id){
+          v.className="pr-vid has";
+          var f=document.createElement("iframe");
+          f.src="https://www.youtube-nocookie.com/embed/"+id;
+          f.title=s.title+" 영상";
+          f.allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture";
+          f.allowFullscreen=true;
+          f.referrerPolicy="strict-origin-when-cross-origin";
+          v.appendChild(f);
+        }else v.textContent="🎬 영상 링크를 기다리고 있어요";
+        var a=c.querySelector(".pr-btn");
+        if(ok)a.href=s.link;else{a.className="pr-btn off";a.setAttribute("aria-disabled","true");}
+        box.appendChild(c);
+      });
+    }
+    new MutationObserver(function(){
+      if(p.hidden)box.innerHTML="";else draw();
+    }).observe(p,{attributes:true,attributeFilter:["hidden"]});
+  }
+
+  function select(k,focus){
+    names.forEach(function(_,i){
+      var t=document.getElementById("tab-"+i);
+      t.setAttribute("aria-selected",i===k?"true":"false");
+      t.tabIndex=i===k?0:-1;
+      document.getElementById("panel-"+i).hidden=i!==k;
+    });
+    if(focus)document.getElementById("tab-"+k).focus();
+  }
+})();
+</script>
+</body>
+</html>
