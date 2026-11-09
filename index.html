@@ -64,6 +64,59 @@ nav{margin:20px 0}
 .att-offline{display:inline-block;margin:0 0 12px;padding:2px 14px;border:2px solid var(--ink);border-radius:999px;background:#FFE5D0;font-size:1.05rem;font-weight:800}
 .att-offline[hidden]{display:none}
 @media (max-width:600px){.att-sum{grid-template-columns:1fr}.att-name{font-size:1.7rem}.att-btn{width:72px;min-height:72px}}
+.tal-top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.tal-name{flex:1 1 150px;margin:0;font-size:2rem;font-weight:900;word-break:keep-all}
+.tal-btns{flex:none;display:flex;gap:10px;margin-left:auto}
+.tal-btn{flex:none;min-width:80px;min-height:80px;padding:0 10px;font:inherit;font-size:2.6rem;font-weight:900;line-height:1;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:20px;cursor:pointer}
+.tal-btn.five{min-width:104px;background:#FFE08A;font-size:2.2rem}
+.tal-btn:active{background:var(--ink);color:var(--bg)}
+.tal-btn[aria-disabled="true"]{opacity:.3;cursor:default}
+.tal-btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.tal-pile{display:flex;flex-wrap:wrap;align-items:flex-end;gap:6px;margin-top:12px;min-height:60px}
+.tal-medal{display:block;width:42px;height:56px}
+.tal-medal.big{width:68px;height:90px}
+.tal-more,.tal-count{display:inline-block;padding:2px 16px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:1.5rem;font-weight:900;line-height:1.5;white-space:nowrap}
+.tal-more{background:#fff;color:var(--ink);border:3px solid var(--ink);align-self:center}
+.tal-count{align-self:center;margin-left:auto}
+.tal-bk{margin-top:16px;padding:18px 20px 22px;border:3px solid var(--ink);border-radius:22px;background:#FFF8E7}
+.tal-bk[hidden]{display:none}
+.tal-bk-h{margin:0 0 10px;font-size:1.3rem;font-weight:900;line-height:1.5;word-break:keep-all}
+.tal-bk-note{margin:0 0 10px;font-size:1.1rem;font-weight:600;line-height:1.5;word-break:keep-all}
+.tal-bk-text{display:block;width:100%;min-height:240px;padding:12px 14px;font:inherit;font-size:1.15rem;line-height:1.6;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:16px;resize:vertical}
+.tal-bk-text.in{min-height:130px}
+.tal-bk-text:focus{outline:3px solid #4A90C2;outline-offset:2px}
+.tal-bk-btn{display:block;width:100%;margin-top:12px;min-height:68px;padding:0 20px;font:inherit;font-size:1.5rem;font-weight:900;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:18px;cursor:pointer}
+.tal-bk-btn.main{color:var(--bg);background:var(--ink)}
+.tal-bk-btn.confirm{background:#F6B8A8;color:var(--ink)}
+.tal-bk-btn:active{transform:translateY(2px)}
+.tal-bk-btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.tal-bk-msg{min-height:1.8rem;margin:8px 0 0;font-size:1.2rem;font-weight:800;line-height:1.5;word-break:keep-all}
+.tal-bk-sep{margin:26px 0 10px;padding-top:20px;border-top:3px dashed var(--ink);font-size:1.5rem;font-weight:900}
+.tal-toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:50;width:max-content;max-width:90vw;padding:14px 30px;border:3px solid var(--bg);border-radius:999px;background:var(--ink);color:var(--bg);font-size:1.8rem;font-weight:900;text-align:center;opacity:0;transform:translate(-50%,20px);pointer-events:none;transition:opacity .25s,transform .25s}
+.tal-toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){.tal-toast{transition:none}}
+@media (max-width:600px){.tal-name{font-size:1.7rem}.tal-btn{min-width:64px;min-height:72px;font-size:2.2rem}.tal-btn.five{min-width:88px;font-size:1.9rem}.tal-medal.big{width:58px;height:77px}.tal-medal{width:36px;height:48px}}
+#classname{margin:6px 0 0;font-size:1.5rem;font-weight:800}
+#classname:empty{display:none}
+.mg-notice{margin:0 0 8px;padding:16px 22px;border:3px solid var(--ink);border-radius:20px;background:#FFE5D0;font-size:1.35rem;font-weight:800;line-height:1.7;word-break:keep-all}
+.mg-h{margin:26px 0 8px;font-size:1.7rem;font-weight:900}
+.mg-hint{margin:0 0 14px;font-size:1.15rem;font-weight:600}
+.mg-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.mg-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;padding:10px 14px;border:3px solid var(--ink);border-radius:20px;background:var(--cc)}
+.mg-empty{padding:18px;font-size:1.3rem;font-weight:700;text-align:center}
+.mg-emo{flex:none;font-size:2.2rem;line-height:1}
+.mg-input{flex:1 1 120px;min-width:0;min-height:64px;padding:0 16px;font:inherit;font-size:1.8rem;font-weight:800;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:16px}
+.mg-cls{display:block;width:100%}
+.mg-input:focus{outline:3px solid #4A90C2;outline-offset:2px}
+.mg-btn{flex:none;min-width:96px;min-height:64px;padding:0 18px;font:inherit;font-size:1.5rem;font-weight:900;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:16px;cursor:pointer}
+.mg-btn:active{transform:translateY(2px)}
+.mg-btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.mg-btn.del{margin-left:auto}
+.mg-btn.del.confirm{background:#F6B8A8}
+.mg-btn.add{color:var(--bg);background:var(--ink)}
+.mg-add{display:flex;gap:12px;margin-top:16px}
+.mg-msg{min-height:1.9rem;margin:10px 0 0;font-size:1.25rem;font-weight:800}
+@media (max-width:600px){.mg-input{font-size:1.5rem}.mg-btn{min-width:84px;font-size:1.3rem}}
 .scene-card{border:2px solid var(--ink);border-radius:28px;overflow:hidden;background:#FFF8E7}
 .scene-card svg{display:block;width:100%;height:auto}
 .scene-cap{margin:0;padding:18px 24px;text-align:center;font-size:1.9rem;font-weight:800;line-height:1.5;word-break:keep-all;background:#FFF8E7}
@@ -245,6 +298,7 @@ nav{margin:20px 0}
 <div class="wrap">
   <header>
     <h1>NFC Sunday School</h1>
+    <p id="classname"></p>
     <p id="today"></p>
   </header>
 
@@ -448,6 +502,12 @@ nav{margin:20px 0}
   var names=["찬양","공과","성경 이야기","퀴즈","짝 맞추기","출석","달란트","반 관리"];
   var tabs=document.getElementById("tabs");
   var panels=document.getElementById("panels");
+  var Roster=makeRoster();
+  var Bridge={att:null,tal:null};
+  var clsEl=document.getElementById("classname");
+  function showCls(){clsEl.textContent=Roster.cls();}
+  showCls();
+  Roster.on(function(e){if(e.type==="cls"||e.type==="replace")showCls();});
 
   var d=new Date();
   var days=["일","월","화","수","목","금","토"];
@@ -515,6 +575,10 @@ nav{margin:20px 0}
       initPraise(p);
     }else if(n==="출석"){
       initAttendance(p);
+    }else if(n==="달란트"){
+      initTalent(p);
+    }else if(n==="반 관리"){
+      initManage(p);
     }else{
       p.innerHTML='<h2 class="panel-title"></h2><p class="panel-note">다음 주에 만듭니다</p>';
       p.querySelector("h2").textContent=n;
@@ -1014,26 +1078,566 @@ nav{margin:20px 0}
     }).observe(p,{attributes:true,attributeFilter:["hidden"]});
   }
 
-  function initAttendance(panel){
-    var roster=["다람쥐","사슴","참새","고래","나비"];
+  function makeRoster(){
+    var KEY="class-roster-v1",MAXN=30,MAXLEN=10,MAXCLS=12;
+    var DEF=["다람쥐","사슴","참새","고래","나비"];
     var known={"다람쥐":"🐿️","사슴":"🦌","참새":"🐦","고래":"🐳","나비":"🦋"};
     var pool=["🐻","🐰","🦊","🐼","🐸","🐢","🐧","🦉","🐝","🐞","🐬","🦁","🐯","🐨","🐶","🐱","🦄","🐙","🦒","🐘","🐷","🐮","🐵","🐹","🦔","🐠","🦀","🐛","🦆","🐴"];
-    var emo={},used={};
-
-    roster.forEach(function(n){
-      var e=Object.prototype.hasOwnProperty.call(known,n)?known[n]:null;
-      if(e&&!used[e]){emo[n]=e;used[e]=true;}
-    });
-    roster.forEach(function(n){
-      if(emo[n])return;
-      var h=0,i,k,c;
+    var names=[],emo={},cls="햇살반",subs=[];
+    function has(o,k){return Object.prototype.hasOwnProperty.call(o,k);}
+    function norm(s){return String(s==null?"":s).replace(/\s+/g," ").trim();}
+    function len(s){return Array.from(s).length;}
+    function usedSet(except){
+      var u={};
+      Object.keys(emo).forEach(function(k){if(k!==except)u[emo[k]]=true;});
+      return u;
+    }
+    function pick(n){
+      var u=usedSet(n),i,k,c,h=0;
+      if(has(known,n)&&!u[known[n]])return known[n];
       for(i=0;i<n.length;i++)h=(h*31+n.charCodeAt(i))>>>0;
       for(k=0;k<pool.length;k++){
         c=pool[(h+k)%pool.length];
-        if(!used[c]){emo[n]=c;used[c]=true;break;}
+        if(!u[c])return c;
       }
-      if(!emo[n])emo[n]="⭐";
+      return "⭐";
+    }
+    function valid(n){
+      return typeof n==="string"&&n===norm(n)&&n!==""&&len(n)<=MAXLEN&&n!=="__proto__";
+    }
+    (function load(){
+      var s=null;
+      try{s=JSON.parse(localStorage.getItem(KEY)||"null");}catch(_){s=null;}
+      var list=null;
+      if(s&&Array.isArray(s.names)){
+        list=[];
+        s.names.forEach(function(n){if(valid(n)&&list.indexOf(n)<0&&list.length<MAXN)list.push(n);});
+      }
+      if(!list)list=DEF.slice();
+      list.forEach(function(n){
+        names.push(n);
+        var e=s&&s.emo&&has(s.emo,n)?s.emo[n]:null;
+        emo[n]=(typeof e==="string"&&e&&len(e)<=4)?e:pick(n);
+      });
+      if(s&&typeof s.cls==="string"){
+        var c=norm(s.cls);
+        if(c&&len(c)<=MAXCLS)cls=c;
+      }
+    })();
+    function save(){
+      try{localStorage.setItem(KEY,JSON.stringify({cls:cls,names:names,emo:emo}));}catch(_){}
+    }
+    function emit(e){
+      save();
+      subs.slice().forEach(function(f){try{f(e);}catch(_){}});
+    }
+    function check(n,except){
+      if(!n)return "이름을 써 주세요.";
+      if(len(n)>MAXLEN)return "이름은 "+MAXLEN+"글자까지 쓸 수 있어요.";
+      if(n==="__proto__")return "쓸 수 없는 이름이에요.";
+      if(n!==except&&names.indexOf(n)>=0)return "이미 있는 이름이에요.";
+      return "";
+    }
+    return {
+      names:names,emo:emo,MAXN:MAXN,MAXLEN:MAXLEN,MAXCLS:MAXCLS,norm:norm,check:check,
+      cls:function(){return cls;},
+      on:function(f){subs.push(f);},
+      add:function(raw){
+        var n=norm(raw),err=check(n,null);
+        if(err)return err;
+        if(names.length>=MAXN)return "명단은 "+MAXN+"명까지예요.";
+        names.push(n);emo[n]=pick(n);
+        emit({type:"add",name:n});
+        return "";
+      },
+      remove:function(n){
+        var i=names.indexOf(n);
+        if(i<0)return;
+        names.splice(i,1);delete emo[n];
+        emit({type:"remove",name:n});
+      },
+      rename:function(from,raw){
+        var to=norm(raw),i=names.indexOf(from);
+        if(i<0)return "없는 이름이에요.";
+        if(to===from)return "";
+        var err=check(to,from);
+        if(err)return err;
+        names[i]=to;emo[to]=emo[from];delete emo[from];
+        emit({type:"rename",from:from,to:to});
+        return "";
+      },
+      restore:function(rawCls,list){
+        if(!Array.isArray(list)||!list.length)return "명단이 비어 있어요.";
+        if(list.length>MAXN)return "명단이 너무 길어요.";
+        var seen={},clean=[],i,n;
+        for(i=0;i<list.length;i++){
+          n=list[i];
+          if(!valid(n)||has(seen,n))return "기록에 쓸 수 없는 이름이 들어 있어요.";
+          seen[n]=true;clean.push(n);
+        }
+        var old=names.slice(),c=norm(rawCls);
+        Object.keys(emo).forEach(function(k){if(!has(seen,k))delete emo[k];});
+        clean.forEach(function(k){if(!has(emo,k))emo[k]=pick(k);});
+        names.length=0;
+        clean.forEach(function(k){names.push(k);});
+        if(c&&len(c)<=MAXCLS)cls=c;
+        emit({type:"replace",old:old});
+        return "";
+      },
+      setCls:function(raw){
+        var c=norm(raw);
+        if(!c||len(c)>MAXCLS||c===cls)return;
+        cls=c;emit({type:"cls"});
+      }
+    };
+  }
+
+  function sharedRoster(){
+    return {roster:Roster.names,emo:Roster.emo};
+  }
+
+  function initManage(panel){
+    var R=Roster;
+    panel.classList.add("manage");
+    panel.innerHTML=
+      '<p class="mg-notice">아이 실명 대신 가명을 쓰세요.<br>사진은 올리지 마세요.<br>주소를 아는 사람은 누구나 볼 수 있습니다.</p>'+
+      '<h2 class="mg-h">우리 반 명단</h2>'+
+      '<p class="mg-hint">이름을 누르면 바로 고칠 수 있어요.</p>'+
+      '<ul class="mg-list"></ul>'+
+      '<form class="mg-add" novalidate>'+
+        '<input class="mg-input mg-new" type="text" maxlength="'+R.MAXLEN+'" placeholder="새 아이 가명" aria-label="새 아이 가명" autocomplete="off">'+
+        '<button type="submit" class="mg-btn add">추가</button>'+
+      '</form>'+
+      '<p class="mg-msg" role="status" aria-live="polite"></p>'+
+      '<h2 class="mg-h">반 이름</h2>'+
+      '<input class="mg-input mg-cls" type="text" maxlength="'+R.MAXCLS+'" aria-label="반 이름" autocomplete="off">';
+
+    var list=panel.querySelector(".mg-list");
+    var form=panel.querySelector(".mg-add");
+    var newIn=panel.querySelector(".mg-new");
+    var msgEl=panel.querySelector(".mg-msg");
+    var clsIn=panel.querySelector(".mg-cls");
+    var msgTimer=null,armedBtn=null,armTimer=null,delBtns=[];
+
+    function msg(t){
+      msgEl.textContent=t;
+      clearTimeout(msgTimer);
+      if(t)msgTimer=setTimeout(function(){msgEl.textContent="";},4000);
+    }
+    function disarm(){
+      clearTimeout(armTimer);armTimer=null;
+      if(armedBtn){armedBtn.classList.remove("confirm");armedBtn.textContent="빼기";}
+      armedBtn=null;
+    }
+    function labels(){
+      delBtns.forEach(function(b,i){b.setAttribute("aria-label",R.names[i]+" 명단에서 빼기");});
+    }
+
+    function build(){
+      disarm();
+      list.textContent="";
+      delBtns=[];
+      if(!R.names.length){
+        var e=document.createElement("li");
+        e.className="mg-empty";
+        e.textContent="아직 아이가 없어요. 아래에서 추가해 주세요.";
+        list.appendChild(e);
+        return;
+      }
+      R.names.forEach(function(n,i){
+        var li=document.createElement("li");
+        li.className="mg-row c"+(i%4+1);
+        var em=document.createElement("span");
+        em.className="mg-emo";em.setAttribute("aria-hidden","true");
+        em.textContent=R.emo[n];
+        var inp=document.createElement("input");
+        inp.type="text";inp.className="mg-input mg-name";
+        inp.maxLength=R.MAXLEN;inp.value=n;inp.autocomplete="off";
+        inp.setAttribute("aria-label","이름 고치기");
+        var del=document.createElement("button");
+        del.type="button";del.className="mg-btn del";del.textContent="빼기";
+        li.appendChild(em);li.appendChild(inp);li.appendChild(del);
+        list.appendChild(li);
+        delBtns.push(del);
+        inp.addEventListener("change",function(){
+          var old=R.names[i],v=R.norm(inp.value);
+          if(v===old){inp.value=old;return;}
+          var err=R.rename(old,v);
+          if(err){inp.value=old;msg(err);return;}
+          inp.value=v;
+          msg("이름을 고쳤어요.");
+        });
+        inp.addEventListener("keydown",function(ev){
+          if(ev.key==="Enter"){ev.preventDefault();inp.blur();}
+          else if(ev.key==="Escape"){inp.value=R.names[i];inp.blur();}
+        });
+        del.addEventListener("click",function(){
+          if(armedBtn!==del){
+            disarm();
+            armedBtn=del;
+            del.classList.add("confirm");
+            del.textContent="정말 뺄까요?";
+            armTimer=setTimeout(disarm,4000);
+            return;
+          }
+          var name=R.names[i];
+          disarm();
+          R.remove(name);
+          msg("명단에서 뺐어요.");
+        });
+      });
+      labels();
+    }
+
+    form.addEventListener("submit",function(ev){
+      ev.preventDefault();
+      var err=R.add(newIn.value);
+      if(err){msg(err);return;}
+      newIn.value="";
+      msg("추가했어요.");
     });
+
+    clsIn.value=R.cls();
+    clsIn.addEventListener("input",function(){R.setCls(clsIn.value);});
+    clsIn.addEventListener("blur",function(){clsIn.value=R.cls();});
+    clsIn.addEventListener("keydown",function(ev){if(ev.key==="Enter"){ev.preventDefault();clsIn.blur();}});
+
+    R.on(function(e){
+      if(e.type==="add"||e.type==="remove")build();
+      else if(e.type==="replace"){build();clsIn.value=R.cls();}
+      else if(e.type==="rename")labels();
+    });
+    build();
+  }
+
+  function initTalent(panel){
+    var SR=sharedRoster(),roster=SR.roster,emo=SR.emo;
+    var KEY="talent-v1",MAXV=9999,MAXICONS=10,NS="http://www.w3.org/2000/svg";
+    var counts={};
+    function clean(src){
+      var out={};
+      roster.forEach(function(n){
+        var v=src&&src[n];
+        out[n]=(typeof v==="number"&&isFinite(v)&&v>0)?Math.min(MAXV,Math.floor(v)):0;
+      });
+      return out;
+    }
+    try{
+      var s=JSON.parse(localStorage.getItem(KEY)||"null");
+      counts=clean(s&&s.counts);
+    }catch(_){counts=clean(null);}
+    function save(){
+      try{localStorage.setItem(KEY,JSON.stringify({counts:counts}));}catch(_){}
+    }
+
+    panel.classList.add("talent");
+    panel.innerHTML=
+      '<div class="att-sum">'+
+        '<div class="att-box"><p class="att-label">반 전체 합계</p><p class="att-big tal-total"></p></div>'+
+        '<div class="att-box"><p class="att-label">최다 받은 아이</p><p class="att-big tal-best"></p></div>'+
+      '</div>'+
+      '<ul class="att-list"></ul>'+
+      '<button type="button" class="att-reset">달란트 처음부터</button>'+
+      '<button type="button" class="att-reset tal-bk-open">학기 기록 꺼내기</button>'+
+      '<div class="tal-bk" hidden>'+
+        '<p class="tal-bk-h">아래 글을 모두 복사해서 메모장 같은 곳에 보관해 두세요.</p>'+
+        '<p class="tal-bk-note">상자를 누르면 전체가 선택돼요. 복사가 안 되면 직접 길게 눌러 복사해 주세요.</p>'+
+        '<textarea class="tal-bk-text tal-bk-out" readonly spellcheck="false" aria-label="학기 기록"></textarea>'+
+        '<button type="button" class="tal-bk-btn main tal-bk-copy">복사하기</button>'+
+        '<p class="tal-bk-msg out" role="status" aria-live="polite"></p>'+
+        '<p class="tal-bk-sep">이 기록 다시 불러오기</p>'+
+        '<p class="tal-bk-note">보관해 둔 글을 아래 칸에 붙여넣으세요. 그 안에서 기록 한 줄을 찾아 되살립니다.</p>'+
+        '<textarea class="tal-bk-text in tal-bk-in" spellcheck="false" placeholder="여기에 붙여넣으세요" aria-label="붙여넣는 칸"></textarea>'+
+        '<button type="button" class="tal-bk-btn tal-bk-restore">이 기록 다시 불러오기</button>'+
+        '<p class="tal-bk-msg in" role="status" aria-live="polite"></p>'+
+      '</div>'+
+      '<p class="tal-toast" role="status" aria-live="polite"></p>';
+
+    var list=panel.querySelector(".att-list");
+    var totalEl=panel.querySelector(".tal-total");
+    var bestEl=panel.querySelector(".tal-best");
+    var toastEl=panel.querySelector(".tal-toast");
+    var toastTimer=null;
+    function toast(msg){
+      toastEl.textContent=msg;
+      toastEl.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer=setTimeout(function(){toastEl.classList.remove("show");},1800);
+    }
+
+    function medal(big){
+      var m=document.createElementNS(NS,"svg");
+      m.setAttribute("viewBox","0 0 48 64");
+      m.setAttribute("class","tal-medal"+(big?" big":""));
+      m.setAttribute("aria-hidden","true");
+      m.innerHTML=
+        '<polygon points="8,1 22,1 32,30 18,30" fill="#E4745A" stroke="#2C3E50" stroke-width="2" stroke-linejoin="round"/>'+
+        '<polygon points="26,1 40,1 30,30 16,30" fill="#4A90C2" stroke="#2C3E50" stroke-width="2" stroke-linejoin="round"/>'+
+        '<circle cx="24" cy="43" r="19" fill="#F7C948" stroke="#2C3E50" stroke-width="3"/>'+
+        '<circle cx="24" cy="43" r="13" fill="#FBE08A" stroke="#C9962B" stroke-width="2"/>'+
+        (big?'<text x="24" y="49" text-anchor="middle" font-size="16" font-weight="900" fill="#7A4E00" font-family="sans-serif">10</text>'
+            :'<text x="24" y="49.5" text-anchor="middle" font-size="18" font-weight="900" fill="#B8860B" font-family="sans-serif">★</text>');
+      return m;
+    }
+
+    var rows={};
+    function buildRows(){
+    list.textContent="";rows={};
+    roster.forEach(function(n,i){
+      var li=document.createElement("li");
+      li.className="att-row c"+(i%4+1);
+      var top=document.createElement("div");
+      top.className="tal-top";
+      var nm=document.createElement("p");
+      nm.className="tal-name";
+      nm.textContent=emo[n]+" "+n;
+      var btns=document.createElement("div");
+      btns.className="tal-btns";
+      function mk(label,text,cls,aria){
+        var b=document.createElement("button");
+        b.type="button";b.className="tal-btn"+(cls?" "+cls:"");
+        b.textContent=text;b.setAttribute("aria-label",n+" "+aria);
+        btns.appendChild(b);
+        return b;
+      }
+      var minus=mk("−","−","","달란트 1개 빼기");
+      var plus=mk("＋","＋","","달란트 1개 주기");
+      var five=mk("＋5","＋5","five","달란트 5개 주기");
+      top.appendChild(nm);top.appendChild(btns);
+      var pile=document.createElement("div");
+      pile.className="tal-pile";
+      li.appendChild(top);li.appendChild(pile);
+      list.appendChild(li);
+      rows[n]={li:li,pile:pile,minus:minus};
+      plus.addEventListener("click",function(){give(n,1);});
+      five.addEventListener("click",function(){give(n,5);});
+      minus.addEventListener("click",function(){give(n,-1);});
+    });
+    }
+    buildRows();
+
+    function give(n,delta){
+      var cur=counts[n];
+      var next=Math.max(0,Math.min(MAXV,cur+delta));
+      var applied=next-cur;
+      if(applied===0)return;
+      counts[n]=next;
+      save();
+      render();
+      toast(n+" "+(applied>0?"+":"−")+Math.abs(applied)+" 달란트");
+    }
+
+    function render(){
+      var total=0,max=0;
+      roster.forEach(function(n){
+        var c=counts[n],r=rows[n];
+        total+=c;
+        if(c>max)max=c;
+        var bigs=Math.floor(c/10),sm=c%10;
+        var showB=Math.min(bigs,MAXICONS);
+        var showS=Math.min(sm,MAXICONS-showB);
+        var hidden=c-(showB*10+showS);
+        r.pile.textContent="";
+        var k;
+        for(k=0;k<showB;k++)r.pile.appendChild(medal(true));
+        for(k=0;k<showS;k++)r.pile.appendChild(medal(false));
+        if(hidden>0){
+          var more=document.createElement("span");
+          more.className="tal-more";
+          more.textContent="+"+hidden;
+          r.pile.appendChild(more);
+        }
+        var cnt=document.createElement("span");
+        cnt.className="tal-count";
+        cnt.textContent=c+"개";
+        r.pile.appendChild(cnt);
+        r.li.setAttribute("aria-label",n+" 달란트 "+c+"개");
+        r.minus.setAttribute("aria-disabled",c===0?"true":"false");
+      });
+      totalEl.textContent=total+"개";
+      bestEl.textContent=max===0?"아직 없어요":
+        roster.filter(function(n){return counts[n]===max;})
+          .map(function(n){return emo[n]+" "+n;}).join(", ")+" ("+max+"개)";
+      if(typeof refreshOut==="function")refreshOut();
+    }
+
+    var resetBtn=panel.querySelector(".att-reset");
+    var resetTimer=null;
+    function disarm(){
+      clearTimeout(resetTimer);
+      resetTimer=null;
+      resetBtn.classList.remove("confirm");
+      resetBtn.textContent="달란트 처음부터";
+    }
+    resetBtn.addEventListener("click",function(){
+      if(!resetTimer){
+        resetBtn.classList.add("confirm");
+        resetBtn.textContent="정말 지울까요?";
+        resetTimer=setTimeout(disarm,5000);
+        return;
+      }
+      disarm();
+      roster.forEach(function(n){counts[n]=0;});
+      save();
+      render();
+      toast("달란트를 모두 지웠어요");
+    });
+
+    var TAG='{"app":"sunday-class"';
+    var bkOpen=panel.querySelector(".tal-bk-open");
+    var bk=panel.querySelector(".tal-bk");
+    var outTa=panel.querySelector(".tal-bk-out");
+    var inTa=panel.querySelector(".tal-bk-in");
+    var copyBtn=panel.querySelector(".tal-bk-copy");
+    var restoreBtn=panel.querySelector(".tal-bk-restore");
+    var outMsg=panel.querySelector(".tal-bk-msg.out");
+    var inMsg=panel.querySelector(".tal-bk-msg.in");
+    var pending=null,pendTimer=null;
+
+    function attOf(n){return Bridge.att?Bridge.att.get(n):0;}
+    function buildBackup(){
+      var d=new Date();
+      var iso=d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);
+      var lines=["[우리 반 기록] 초등 3부 "+Roster.cls()];
+      roster.forEach(function(n){
+        lines.push("· "+n+" — 출석 "+attOf(n)+"번, 달란트 "+counts[n]+"개");
+      });
+      var data={app:"sunday-class",v:1,cls:Roster.cls(),d:iso,rows:roster.map(function(n){
+        return {n:n,a:attOf(n),t:counts[n]};
+      })};
+      lines.push("");
+      lines.push("[되살리기용 한 줄 — 고치지 마세요]");
+      lines.push(JSON.stringify(data));
+      return lines.join("\n");
+    }
+    function refreshOut(){if(!bk.hidden)outTa.value=buildBackup();}
+    function selectAll(ta){
+      try{ta.focus();ta.select();ta.setSelectionRange(0,ta.value.length);}catch(_){}
+    }
+    function setOut(t){outMsg.textContent=t;}
+    function setIn(t){inMsg.textContent=t;}
+    function disarmRestore(){
+      clearTimeout(pendTimer);pendTimer=null;pending=null;
+      restoreBtn.classList.remove("confirm");
+      restoreBtn.textContent="이 기록 다시 불러오기";
+    }
+
+    bkOpen.addEventListener("click",function(){
+      if(bk.hidden){
+        bk.hidden=false;
+        outTa.value=buildBackup();
+        bkOpen.textContent="학기 기록 닫기";
+        setOut("");setIn("");
+      }else{
+        bk.hidden=true;
+        disarmRestore();
+        bkOpen.textContent="학기 기록 꺼내기";
+      }
+    });
+    outTa.addEventListener("click",function(){selectAll(outTa);});
+    outTa.addEventListener("focus",function(){selectAll(outTa);});
+    copyBtn.addEventListener("click",function(){
+      var text=outTa.value,done=false;
+      function fallback(){
+        selectAll(outTa);
+        try{done=document.execCommand&&document.execCommand("copy");}catch(_){done=false;}
+        setOut(done?"복사했어요.":"복사가 안 돼요. 상자 안을 눌러 전체를 고른 뒤 직접 복사해 주세요.");
+      }
+      try{
+        if(navigator.clipboard&&navigator.clipboard.writeText){
+          navigator.clipboard.writeText(text).then(function(){setOut("복사했어요.");},fallback);
+        }else fallback();
+      }catch(_){fallback();}
+    });
+
+    function scan(text,start){
+      var depth=0,inStr=false,esc=false,i,c;
+      for(i=start;i<text.length;i++){
+        c=text.charAt(i);
+        if(inStr){
+          if(esc)esc=false;
+          else if(c==="\\")esc=true;
+          else if(c==='"')inStr=false;
+        }else if(c==='"')inStr=true;
+        else if(c==="{")depth++;
+        else if(c==="}"){depth--;if(depth===0)return i;}
+      }
+      return -1;
+    }
+    function findBackup(text){
+      var k=text.indexOf(TAG),end,o;
+      while(k>=0){
+        end=scan(text,k);
+        if(end>0){
+          try{
+            o=JSON.parse(text.slice(k,end+1));
+            if(o&&o.app==="sunday-class"&&o.v===1&&Array.isArray(o.rows))return o;
+          }catch(_){}
+        }
+        k=text.indexOf(TAG,k+1);
+      }
+      return null;
+    }
+    function num(v,max){
+      v=Number(v);
+      return (isFinite(v)&&v>0)?Math.min(max,Math.floor(v)):0;
+    }
+
+    inTa.addEventListener("input",function(){disarmRestore();setIn("");});
+    restoreBtn.addEventListener("click",function(){
+      if(!pending){
+        var o=findBackup(inTa.value);
+        if(!o){setIn("붙여넣은 글에서 기록 한 줄을 찾지 못했어요. 꺼낸 글 전체를 그대로 붙여넣어 주세요.");return;}
+        var names=[];
+        o.rows.forEach(function(r){names.push(r&&r.n);});
+        if(!names.length){setIn("기록에 아이 이름이 없어요.");return;}
+        var bad=names.some(function(n,i){return Roster.check(n,n)!==""||Roster.norm(n)!==n||names.indexOf(n)!==i;});
+        if(bad||names.length>Roster.MAXN){setIn("기록에 쓸 수 없는 이름이 들어 있어요.");return;}
+        pending=o;
+        restoreBtn.classList.add("confirm");
+        restoreBtn.textContent="정말 불러올까요?";
+        setIn(names[0]+(names.length>1?" 외 "+(names.length-1)+"명":"")+"의 기록을 찾았어요. 지금 기록은 모두 이 기록으로 바뀌어요. 한 번 더 누르면 불러옵니다.");
+        pendTimer=setTimeout(function(){disarmRestore();setIn("");},8000);
+        return;
+      }
+      var data=pending;
+      disarmRestore();
+      var list=data.rows.map(function(r){return r.n;});
+      var err=Roster.restore(typeof data.cls==="string"?data.cls:Roster.cls(),list);
+      if(err){setIn(err);return;}
+      var a={},t={};
+      data.rows.forEach(function(r){a[r.n]=num(r.a,99999);t[r.n]=num(r.t,MAXV);});
+      if(Bridge.att)Bridge.att.restore(a);
+      Bridge.tal.restore(t);
+      inTa.value="";
+      setIn("불러왔어요.");
+      toast("기록을 불러왔어요");
+    });
+
+    Bridge.tal={
+      restore:function(map){
+        roster.forEach(function(n){counts[n]=num(map&&map[n],MAXV);});
+        save();render();
+      }
+    };
+
+    Roster.on(function(e){
+      if(e.type==="add")counts[e.name]=0;
+      else if(e.type==="remove")delete counts[e.name];
+      else if(e.type==="rename"){counts[e.to]=counts[e.from]||0;delete counts[e.from];}
+      else if(e.type==="replace"){
+        e.old.forEach(function(n){if(roster.indexOf(n)<0)delete counts[n];});
+        roster.forEach(function(n){if(!Object.prototype.hasOwnProperty.call(counts,n))counts[n]=0;});
+      }
+      else return;
+      save();buildRows();render();
+    });
+
+    render();
+  }
+
+  function initAttendance(panel){
+    var SR=sharedRoster(),roster=SR.roster,emo=SR.emo;
 
     var V1="attendance-counts-v1",V2="attendance-v2";
     var SB_URL="https://bhpwybecwshgugoireho.supabase.co";
@@ -1052,7 +1656,7 @@ nav{margin:20px 0}
       try{s=JSON.parse(localStorage.getItem(V2)||"null");}catch(_){s=null;}
       if(s&&s.counts&&typeof s.t==="number"){
         counts=clean(s.counts);T=s.t;
-        if(Array.isArray(s.dirty))s.dirty.forEach(function(n){if(roster.indexOf(n)>=0)dirty[n]=true;});
+        if(Array.isArray(s.dirty))s.dirty.forEach(function(n){if(typeof n==="string"&&n&&n.length<=40)dirty[n]=true;});
         return;
       }
       try{
@@ -1080,7 +1684,8 @@ nav{margin:20px 0}
     var totalEl=panel.querySelector(".att-total");
     var bestEl=panel.querySelector(".att-best");
     var rows={};
-
+    function buildRows(){
+    list.textContent="";rows={};
     roster.forEach(function(n,i){
       var li=document.createElement("li");
       li.className="att-row c"+(i%4+1);
@@ -1114,6 +1719,8 @@ nav{margin:20px 0}
         if(counts[n]>0){counts[n]-=1;change([n]);}
       });
     });
+    }
+    buildRows();
 
     function render(){
       var total=0,max=0;
@@ -1196,12 +1803,12 @@ nav{margin:20px 0}
       if(busy){again=true;return Promise.resolve();}
       busy=true;
       var snap={};
-      var body=names.map(function(n){snap[n]=counts[n];return {nickname:n,visits:counts[n]};});
+      var body=names.map(function(n){var v=roster.indexOf(n)>=0?counts[n]:0;snap[n]=v;return {nickname:n,visits:v};});
       return sb("attendance?on_conflict=nickname",{
         method:"POST",prefer:"resolution=merge-duplicates,return=minimal",body:JSON.stringify(body)
       }).then(function(){
         busy=false;
-        names.forEach(function(n){if(counts[n]===snap[n])delete dirty[n];});
+        names.forEach(function(n){var cur=roster.indexOf(n)>=0?counts[n]:0;if(cur===snap[n])delete dirty[n];});
         saveLocal();
         setOnline(true);
         if(again||Object.keys(dirty).length){again=false;return flush();}
@@ -1260,6 +1867,29 @@ nav{margin:20px 0}
       new MutationObserver(function(){if(!panel.hidden)sync();})
         .observe(panel,{attributes:true,attributeFilter:["hidden"]});
     }
+
+    Roster.on(function(e){
+      if(e.type==="add"){counts[e.name]=0;dirty[e.name]=true;}
+      else if(e.type==="remove"){delete counts[e.name];dirty[e.name]=true;}
+      else if(e.type==="rename"){counts[e.to]=counts[e.from]||0;delete counts[e.from];dirty[e.to]=true;dirty[e.from]=true;}
+      else if(e.type==="replace"){
+        e.old.forEach(function(n){if(roster.indexOf(n)<0){delete counts[n];dirty[n]=true;}});
+        roster.forEach(function(n){if(!Object.prototype.hasOwnProperty.call(counts,n)){counts[n]=0;dirty[n]=true;}});
+      }
+      else return;
+      ver++;T=Date.now();saveLocal();buildRows();render();flush();
+    });
+    Bridge.att={
+      get:function(n){return counts[n]||0;},
+      restore:function(map){
+        roster.forEach(function(n){
+          var v=Number(map&&map[n]);
+          counts[n]=(isFinite(v)&&v>0)?Math.min(99999,Math.floor(v)):0;
+          dirty[n]=true;
+        });
+        ver++;T=Date.now();saveLocal();render();flush();
+      }
+    };
 
     render();
     sync(true);
